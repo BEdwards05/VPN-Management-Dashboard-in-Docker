@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  openvpn-wireguard-admin:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+      #- "1194:1194"  # Uncomment if using OpenVPN
+      - "51820:51820"  # Uncomment if using WireGuard
+    environment:
+      - VPN_PORT=51820           # Specify the VPN port, change if using WireGuard
+      - ADMIN_DOMAIN=test.bedwards.info   # Your VPN domain URL
+      - ADBLOCK=True            # Enable or disable AdBlock
+      - VPN_TYPE=wireguard      # VPN type: wireguard or openvpn
+      - ADMIN_USERNAME=admin    # Username for web admin panel
+      - ADMIN_PASSWORD=password    # Password for web admin panel
+    #volumes:
+    #  - ./data:/app/data   # Maps the host directory './data' to '/app/data' in the container
+    restart: unless-stopped   # Restart policy for the container
