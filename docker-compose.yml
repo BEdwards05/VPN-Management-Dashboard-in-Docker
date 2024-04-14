@@ -12,7 +12,7 @@ services:
       - "51820:51820"  # Uncomment if using WireGuard
     environment:
       - VPN_PORT=51820           # Specify the VPN port, change if using WireGuard
-      - ADMIN_DOMAIN=test.bedwards.info   # Your VPN domain URL
+      - ADMIN_DOMAIN=yourdomain.com   # Your VPN domain URL
       - ADBLOCK=True            # Enable or disable AdBlock
       - VPN_TYPE=wireguard      # VPN type: wireguard or openvpn
       - ADMIN_USERNAME=admin    # Username for web admin panel

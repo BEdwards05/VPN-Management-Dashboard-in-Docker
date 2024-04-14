@@ -1,14 +1,15 @@
 #!/bin/bash
 
+#Set DNS to Google by default
+echo "nameserver 8.8.8.8" > /etc/resolv.conf
+echo "nameserver 8.8.4.4" >> /etc/resolv.conf
+
 # Configure reverse proxy with caddy
 cat << EOF > /etc/caddy/Caddyfile
 {
     local_certs
 }
 ${ADMIN_DOMAIN:-example.com} {
-    tls {
-        protocols tls1.2 tls1.3
-    }
     reverse_proxy localhost:5000
 }
 EOF
