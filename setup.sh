@@ -5,14 +5,25 @@ echo "nameserver 8.8.8.8" > /etc/resolv.conf
 echo "nameserver 8.8.4.4" >> /etc/resolv.conf
 
 # Configure reverse proxy with caddy
-cat << EOF > /etc/caddy/Caddyfile
-{
-    local_certs
-}
+if [ "${USE_LETS_ENCRYPT}" = "true" ]; then
+    # Configure Caddy for Let's Encrypt
+    cat << EOF > /etc/caddy/Caddyfile
 ${ADMIN_DOMAIN:-example.com} {
     reverse_proxy localhost:5000
 }
 EOF
+else
+    # Use local certs if Let's Encrypt is not enabled
+    cat << EOF > /etc/caddy/Caddyfile
+{
+    local_certs
+}
+${ADMIN_DOMAIN:-example.com} {
+    tls internal
+    reverse_proxy localhost:5000
+}
+EOF
+fi
 caddy start --config /etc/caddy/Caddyfile --adapter caddyfile
 echo "Reverse proxy configured with caddy."
 
